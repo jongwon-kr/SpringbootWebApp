@@ -1,5 +1,7 @@
 package com.jong.springboot.SpringbootWebApp.login;
 
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,7 +16,12 @@ public class WelcomeController {
     // GET요청에서만 login
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String goToWelcomePage(ModelMap model) {
-        model.put("name", "jongwon");
+        model.put("name", getLoggedinUsername());
         return "welcome";
+    }
+
+    private String getLoggedinUsername(){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        return authentication.getName();
     }
 }
